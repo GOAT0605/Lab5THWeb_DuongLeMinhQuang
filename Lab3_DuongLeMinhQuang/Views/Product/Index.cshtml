@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Lab3_DuongLeMinhQuang.Models.Product>
+ 
+<h2>Products</h2>
+ 
+<table class="table">
+    <a asp-action="Add" >Thêm Sản Phẩm</a>
+   <div class="small-container">
+       <h2 class="tilte">Product Display</h2>
+       <div class="row">
+           <div style="display:flex">
+                @foreach (var product in Model)
+                {
+                    <div class="col-4">
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img scr ="@product.ImageUrl" />
+                        }
+                        else
+                        {
+                            <span>No Image</span>
+                        }
+                        <h4 style="text-align: center">@product.Name</h4>
+                        <h5 style="text-align: center">@product.Description</h5>
+                        <h5 style="text-align: center">@product.Price</h5>
+                        <div class=" rating" style="text-align:center">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <!--Thêm vào giỏ hàng-->
+                        <form method="post" action="@Url.Action("AddToCart","ShoppingCart")">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="btn-add-to-cart">Thêm Vào Giỏ Hàng</button>
+                        </form>
+
+
+                    </div>
+                }
+            </div>
+       </div>
+
+   </div>
+    <tbody>
+    
+    </tbody>
+</table>
