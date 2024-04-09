@@ -1,26 +1,87 @@
 ﻿@model ShoppingCart
-<h2>Giỏ hàng của bạn</h2>
+<h2>Your Shopping Cart</h2>
 <table>
 	<tr>
-		<th>Product</th>
+		<th>Product </th>
 		<th>Quantity</th>
 		<th>Price</th>
 		<th>Total</th>
 	</tr>
-	@foreach (var item in Model.Items)
-	{
-	<tr>
-		<td>@item.Name</td>
-		<td>@item.Quantity</td>
-		<td>@item.Price</td>
-		<td>@(item.Price * item.Quantity)</td>
-		<td>
-			<a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId">Remove</a>
-		</td>
-	</tr>
-	}
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>
+                <button class="btn btn-sm btn-outline-dark decreasement" data-product-id="@item.ProductId">-</button>
+                <span class="quantity" data-price="@item.Price">@item.Quantity</span>
+                <button class="btn btn-sm btn-outline-dark increment" data-product-id="@item.ProductId">+</button>
+            </td>
+            <td>@item.Price</td>
+            <td class="total">@(item.Price * item.Quantity)</td>
+            <td>
+                <a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId">Remove</a>
+            </td>
+        </tr>
+    }
+
 </table>
 <div style="display: flex">
 	<a asp-action="Checkout" asp-controller="ShoppingCart">Tiến hành đặt hàng</a>
 </div>
 <a asp-action="OrderList" asp-controller="ShoppingCart">Đơn hàng của bạn</a>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px; 
+        text-align: left;
+    }
+
+</style>
+@section scripts {
+
+	<script>
+        $(document).ready(function () {
+            $('.increment, .decreasement').click(function () {
+                var productId = $(this).data('product-id');
+                var quantityElement = $(this).siblings('.quantity');
+                var currentQuantity = parseInt(quantityElement.text());
+
+                if ($(this).hasClass('increment')) {
+                    quantityElement.text(currentQuantity + 1);
+                } else {
+                    quantityElement.text(currentQuantity - 1);
+                }
+            });
+        });
+
+	</script>
+	
+    <script>
+        $(document).ready(function () {
+            $('.decreasement, .increment').click(function () {
+                var productId = $(this).data('product-id');
+                var quantityElement = $(this).siblings('.quantity');
+                var currentQuantity = parseInt(quantityElement.text());
+                if ($(this).hasClass('increment')) {
+                    quantityElement.text(currentQuantity );
+                } else {
+                    if (currentQuantity > 1) {
+                        quantityElement.text(currentQuantity );
+                    } else {
+                        alert("Quantity cannot be less than 1");
+                    }
+                }
+                var price = parseFloat(quantityElement.data('price'));
+                var totalElement = $(this).closest('tr').find('.total');
+                var totalValue = price * parseFloat(quantityElement.text()); // Calculate total as a decimal
+                totalElement.text(totalValue.toFixed(2));
+            });
+        });
+    </script>
+}
+

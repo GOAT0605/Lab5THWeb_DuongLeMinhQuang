@@ -13,7 +13,7 @@
             }
             else
             {
-                Items.Add(item);
+                Items.Add(item); //Chua ton tai them moi
             }
         }
 
