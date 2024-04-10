@@ -10,8 +10,8 @@ namespace Lab3_DuongLeMinhQuang.Models
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
 
-        public string ShippingAddress { get; set; }
-        public string Notes { get; set; }
+        public string? ShippingAddress { get; set; }
+        public string? Notes { get; set; }
 
         public IdentityUser User { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
