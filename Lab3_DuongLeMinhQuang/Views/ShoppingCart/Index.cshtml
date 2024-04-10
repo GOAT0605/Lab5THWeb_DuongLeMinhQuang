@@ -27,12 +27,14 @@
     }
 </table>
 
+
 <div style="display: flex">
     @if (Model.Items.Any())
     {
-        <form asp-action="Checkout" asp-controller="ShoppingCart" method="post">
-            <button type="submit" class="btn btn-primary" id="checkoutButton">Tiến hành đặt hàng</button>
-        </form>
+        <div style="display: flex">
+            <a asp-action="Checkout" asp-controller="ShoppingCart">Tiến hành đặt hàng</a>
+        </div>
+
     }
 </div>
 
